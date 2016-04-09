@@ -8,6 +8,7 @@
 
   <script src="dracula.params.js"></script>
   <script src="dracula.tokenize.js"></script>
+  <script src="dracula.embeddings.js"></script>
 </head>
 <body>
 
@@ -19,7 +20,12 @@
     // Tokenize
     var tokens = draculaTokenize(content);
     // Create embeddings
-
+    var embeddings = [];
+    for (var i = 0; i < tokens.length; i++) {
+      var token = tokens[i];
+      var tokenEmbeddings = draculaGetEmbeddings(token);
+      embeddings.push(tokenEmbeddings);
+    }
     // Distribute embeddings
     // First-level LSTMs
     // Word-level LSTMs
