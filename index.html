@@ -11,6 +11,7 @@
   <script src="dracula.tokenize.js"></script>
   <script src="dracula.embeddings.js"></script>
   <script src="dracula.lstm.js"></script>
+  <script src="dracula.softmax.js"></script>
 </head>
 <body>
 
@@ -51,17 +52,22 @@
     var lstmWords = meanOutput;
     for (var i = 1; i <= 6; i++) {
       var prefix = 'lstm_words_' + i;
+      console.log(prefix)
       lstmWords = draculaBLSTM(lstmWords, prefix);
     }
     // Output
+    var output = draculaSoftmax(lstmWords);
+
+    document.getElementById('text-output').value = output.join(', ');
+    return false;
   }
   </script>
 
   <center>
     <form onsubmit="return visualize();">
-      <textarea id="text-input" rows="4" cols="50">Really simple song, but very effective. I was
-      hooked! @KIIARA ♫ http://spoti.fi/1MzG50Z</textarea>
-      <input type="submit" />
+      <textarea id="text-input" rows="4" cols="50">Really simple song , but very effective . I was hooked ! @KIIARA ♫ http://spoti.fi/1MzG50Z</textarea>
+      <input type="submit" /> <br />
+      <textarea id="text-output" rows="4" cols="50"></textarea>
     </form>
   </center>
 

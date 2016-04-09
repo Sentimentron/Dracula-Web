@@ -2,6 +2,7 @@ function draculaLSTM(values, prefix) {
 
   // Basically a 2D version of what's in nn_lstm.py
 
+  prefix = 'draculaParams_'+prefix;
   var U = window[prefix+'_U'];
   var W = window[prefix+'_W'];
   var b = window[prefix+'_b'];
