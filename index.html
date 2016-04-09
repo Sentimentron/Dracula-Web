@@ -6,9 +6,11 @@
 
   <title>Dracula.js</title>
 
+  <script src="numeric-1.2.6.js"></script>
   <script src="dracula.params.js"></script>
   <script src="dracula.tokenize.js"></script>
   <script src="dracula.embeddings.js"></script>
+  <script src="dracula.lstm.js"></script>
 </head>
 <body>
 
@@ -26,8 +28,16 @@
       var tokenEmbeddings = draculaGetEmbeddings(token);
       embeddings.push(tokenEmbeddings);
     }
-    // Distribute embeddings
     // First-level LSTMs
+    var lstmOutput = [];
+    for (var i = 0; i < embeddings.length; i++) {
+      var cur = embeddings[i];
+      var out1 = draculaBLSTM(cur, 'lstm_chars_1');
+      var out2 = draculaBLSTM(out1, 'lstm_chars_2');
+      var out3 = draculaBLSTM(out2, 'lstm_chars_3');
+      lstmOutput.push(out3);
+    }
+    // Mean-pooling
     // Word-level LSTMs
     // Output
   }
