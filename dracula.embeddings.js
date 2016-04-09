@@ -1,7 +1,15 @@
-function draculaGetEmbeddings(word) {
+function draculaGetEmbeddings(word, length) {
   // Assumes dracula.params.js is included beforehand
   var ret = [];
-  for (var i = 0; i < word.length; i++) {
+
+  var maxOffset = length;
+  if (word.length < maxOffset) maxOffset = word.length;
+
+  for (var i = 0; i < length; i++) {
+    ret.push(draculaParams_Cemb[0]);
+  }
+
+  for (var i = 0; i < maxOffset; i++) {
     var character = word[i]
     // Check that the character is defined in the parameters
     var isAvailable = character in draculaParams_char_dict
@@ -10,7 +18,7 @@ function draculaGetEmbeddings(word) {
     else {
       character = draculaParams_char_dict[character];
     }
-    ret.push(draculaParams_Cemb[character]);
+    ret[i] = draculaParams_Cemb[character];
   }
   return ret;
 }

@@ -23,8 +23,11 @@ function draculaSoftmax(values) {
         argMaxVal = v;
       }
     }
-    if (argMax == 0) break;
-    ret.push(draculaParams_inv_pos_dict[argMax]);
+    if (argMax in draculaParams_inv_pos_dict) {
+      ret.push(draculaParams_inv_pos_dict[argMax]);
+    } else {
+      ret.push('UNK');
+    }
   }
 
   return ret; // TODO: fix me
