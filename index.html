@@ -48,12 +48,10 @@
       meanOutput.push(cur)
     }
     // Word-level LSTMs
-    for (var i = 0; i < meanOutput.length; i++) {
-      var act = meanOutput[i];
-      for (var j = 1; j <= 6; j++) {
-        var prefix = 'lstm_words_' + j;
-        act = draculaBLSTM(act, prefix);
-      }
+    var lstmWords = meanOutput;
+    for (var i = 1; i <= 6; i++) {
+      var prefix = 'lstm_words_' + i;
+      lstmWords = draculaBLSTM(lstmWords, prefix);
     }
     // Output
   }
