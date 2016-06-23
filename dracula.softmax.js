@@ -1,14 +1,22 @@
 function draculaSoftmax(values) {
 
   // TODO: need to check if this U is the same as the one exported
-  var act = numeric.dot(values, draculaParams_U);
-  for (var i = 0; i < act.length; i++) {
-    act[i] = numeric.add(act[i], draculaParams_b);
+//  var act = numeric.dot(values, draculaParams_U);
+  var act = [];
+  for (var i = 0; i < values.length; i++) {
+    var tmp = numeric.dot(values[i], draculaParams_U);
+    tmp = numeric.add(tmp, draculaParams_b);
+    act.push(tmp);
   }
 
-  var exp = numeric.exp(act);
+  //var exp = numeric.exp(act);
+  var exp = [];
   for (var i = 0; i < act.length; i++) {
-    exp[i] = numeric.div(exp[i], numeric.sum(exp[i]));
+    //var ex = numeric.exp(act[i] - Math.max(...act[i]))
+    var ex = numeric.exp(act[i]);
+    ex = numeric.div(ex, numeric.sum(ex))
+    exp.push(ex);
+//    exp[i] = numeric.div(exp[i], numeric.sum(exp[i]));
   }
 
   // Compute the argmax

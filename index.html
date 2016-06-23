@@ -27,7 +27,7 @@
     var lengths = [];
     for (var i = 0; i < tokens.length; i++) {
       var token = tokens[i];
-      var tokenEmbeddings = draculaGetEmbeddings(token, 16);
+      var tokenEmbeddings = draculaGetEmbeddings(token, 256);
       console.log(token);
       console.log(tokenEmbeddings);
       embeddings.push(tokenEmbeddings);
@@ -39,12 +39,12 @@
       var cur = embeddings[i];
       var out1 = draculaBLSTM(cur, 'lstm_chars_1');
       var out2 = draculaBLSTM(out1, 'lstm_chars_2');
-      var out3 = draculaBLSTM(out2, 'lstm_chars_3');
-      lstmOutput.push(out3);
+//      var out3 = draculaBLSTM(out2, 'lstm_chars_3');
+      lstmOutput.push(out2);
     }
     // Mean-pooling
     var meanOutput = [];
-    for (var i = 0; i < 14; i++) {
+    for (var i = 0; i < 16; i++) {
       meanOutput.push(new Array(64).fill(0));
     }
     for (var i = 0; i < lstmOutput.length; i++) {
@@ -57,7 +57,7 @@
     }
     // Word-level LSTMs
     var lstmWords = meanOutput;
-    for (var i = 1; i <= 6; i++) {
+    for (var i = 1; i <= 3; i++) {
       var prefix = 'lstm_words_' + i;
       console.log(prefix)
       lstmWords = draculaBLSTM(lstmWords, prefix);
