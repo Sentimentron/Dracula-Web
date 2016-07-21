@@ -27,11 +27,19 @@
     var lengths = [];
     for (var i = 0; i < tokens.length; i++) {
       var token = tokens[i];
-      var tokenEmbeddings = draculaGetEmbeddings(token, 256);
+      var tokenEmbeddings = draculaGetEmbeddings(token, 20);
       console.log(token);
       console.log(tokenEmbeddings);
       embeddings.push(tokenEmbeddings);
       lengths.push(token.length);
+    }
+    for (var i = embeddings.length; i < 47; i++) {
+      var buf = [];
+      for (var j = 0; j < 20; j++) {
+        buf.push(new Array(64).fill(0));
+      }
+      embeddings.push(buf);
+      lengths.push(0);
     }
     // First-level LSTMs
     var lstmOutput = [];
@@ -44,10 +52,11 @@
     }
     // Mean-pooling
     var meanOutput = [];
-    for (var i = 0; i < 16; i++) {
+    for (var i = 0; i < 47; i++) {
       meanOutput.push(new Array(64).fill(0));
     }
     for (var i = 0; i < lstmOutput.length; i++) {
+      if (lengths[i] == 0) break;
       var cur = new Array(64).fill(0);
       for (var j = 0; j < lstmOutput[i].length; j++) {
         cur = numeric.add(cur, lstmOutput[i][j]);
@@ -71,7 +80,7 @@
   </script>
 
   <center>
-    <form onsubmit="return visualize();">
+    <form onsubmit="visualize(); return false;">
       <textarea id="text-input" rows="4" cols="50">Really simple song , but very effective . I was hooked ! @KIIARA ♫ http://spoti.fi/1MzG50Z</textarea>
       <input type="submit" /> <br />
       <textarea id="text-output" rows="4" cols="50"></textarea>

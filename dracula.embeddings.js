@@ -5,11 +5,6 @@ function draculaGetEmbeddings(word, length) {
   var maxOffset = length;
   if (word.length < maxOffset) maxOffset = word.length;
 
-  for (var i = 0; i < length; i++) {
-    //ret.push(draculaParams_Cemb[0]);
-    //ret.push(new Array(64).fill(0));
-  }
-
   for (var i = 0; i < maxOffset; i++) {
     var character = word[i]
     // Check that the character is defined in the parameters
@@ -22,5 +17,10 @@ function draculaGetEmbeddings(word, length) {
 //    ret[i] = draculaParams_Cemb[character];
     ret.push(draculaParams_Cemb[character]);
   }
+
+  for (var i = ret.length; i < length; i++) {
+    ret.push(new Array(64).fill(0));
+  }
+
   return ret;
 }

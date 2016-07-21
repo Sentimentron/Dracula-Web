@@ -1,4 +1,4 @@
-function draculaLSTM(values, prefix) {
+function draculaLSTM(values, prefix, backwards) {
 
   // Basically a 2D version of what's in nn_lstm.py
 
@@ -42,7 +42,20 @@ function draculaLSTM(values, prefix) {
   var h_ = new Array(64).fill(0);
   var c_ = new Array(64).fill(0);
   var ret = [];
-  for (var token = 0; token < values.length; token++) {
+
+  var tokens = [];
+  if (!backwards) {
+    for (var i = 0; i < values.length; i++) {
+      tokens.push(i);
+    }
+  } else {
+    for (var i = values.length-1; i >= 0; i--) {
+      tokens.push(i);
+    }
+  }
+
+  for (var tokeni = 0; tokeni < tokens.length; tokeni++) {
+    var token = tokens[tokeni];
     // Compute input gate values
     var x_ = stateBelow[token];
     var preact = numeric.dot(h_, U);
@@ -71,8 +84,8 @@ function draculaBLSTM(values, prefix) {
   var fwPrefix = prefix + '_forwards';
   var bkPrefix = prefix + '_backwards';
 
-  var forwards = draculaLSTM(values, fwPrefix);
-  var backwards = draculaLSTM(values, bkPrefix);
+  var forwards = draculaLSTM(values, fwPrefix, false);
+  var backwards = draculaLSTM(values, bkPrefix, true);
 
   return numeric.add(forwards, backwards);
 }
